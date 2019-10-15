@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteNotches", "InfiniteNotches\InfiniteNotches.csproj", "{BB660F66-653C-46C3-BAB6-4F50D7E6ACBA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB660F66-653C-46C3-BAB6-4F50D7E6ACBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB660F66-653C-46C3-BAB6-4F50D7E6ACBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB660F66-653C-46C3-BAB6-4F50D7E6ACBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB660F66-653C-46C3-BAB6-4F50D7E6ACBA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8025D5C5-25FE-4F4B-921B-C86450BDFA35}
+	EndGlobalSection
+EndGlobal
