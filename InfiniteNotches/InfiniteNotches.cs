@@ -8,25 +8,36 @@ namespace InfiniteNotches
 {
     /*
      * This is an example Hollow Knight mod.
-     * Mods must be made using .NET Framework 3.5, and should output a (.DLL) class library.
+     * Mods must be made using .NET Framework 4.7.2, and should output a (.DLL) class library.
      * Mods must reference the Modding API. If you have already installed the API, this is the Assembly-CSharp file
      * Then, place "using Modding;" in the header to begin your mod.
     */
 
     public class InfiniteNotches : Mod, ITogglableMod
     {
+        /*
+         * Saving a static reference to the mod allows logging with the mod's name from static methods and other classes.
+        */ 
         internal static InfiniteNotches instance;
+
+        /*
+         * The constructor allows code to be run before mods are loaded. This should be used sparingly.
+         * The constructor must not take parameters.
+         * The base Mod constructor allows the Name of the mod to be set. 
+            * If the base constructor is not explicitly used, it defaults to the type name of the mod.
+        */ 
+        public InfiniteNotches() : base(nameof(InfiniteNotches))
+        {
+            instance = this;
+        }
 
         /*
          * Every mod needs an override Initialize() method. This is what the API will call when it loads the mod.
         */
         public override void Initialize()
         {
-            instance = this;
-
             instance.Log("Initializing");
-
-            ModHooks.Instance.GetPlayerIntHook += OverrideNotchCount;
+            ModHooks.GetPlayerIntHook += OverrideNotchCount;
         }
 
         /*
@@ -44,15 +55,21 @@ namespace InfiniteNotches
          * we can intercept that call and replace it with our own int.
          * (Save data can be accessed in PlayerData.instance)
          * Here, when the game checks the number of charm notches, we always return 2000.
-         * Otherwise, we send the call forwards with the GetIntInternal method, which prevents the hook from being called again immediately.
+         * Otherwise, we send the call forwards with the value provided in the method parameters.
+         * 
+         * We could also retrieve save data with the PlayerData.instance.GetIntInternal method instead of using value
+         * Avoid using PlayerData.instance.GetInt inside a method hooked to GetPlayerIntHook
+            * This calls the hook again immediately, and can easily lead to infinite recursion.
+         * Avoid using direct field access on PlayerData (e.g. PlayerData.instance.charmSlots)
+            * This does not call any hooks, and so it prevents other mods from making changes.
         */
-        private static int OverrideNotchCount(string target)
+        private static int OverrideNotchCount(string fieldName, int value)
         {
-            if (target == nameof(PlayerData.instance.charmSlots))
+            if (fieldName == nameof(PlayerData.charmSlots))
             {
                 return 2000;
             }
-            return PlayerData.instance.GetIntInternal(target);
+            return value;
         }
 
         /*
@@ -64,7 +81,7 @@ namespace InfiniteNotches
 
         public void Unload()
         {
-            ModHooks.Instance.GetPlayerIntHook -= OverrideNotchCount;
+            ModHooks.GetPlayerIntHook -= OverrideNotchCount;
         }
 
     }
